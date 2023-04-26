@@ -1,0 +1,64 @@
+---
+title: "Statiscal Inference Final Project"
+author: "Maria Cristina Alameda Salas"
+date: "25/4/2023"
+output: html_document
+---
+
+
+
+
+## Part 2: Basic Inferential Data Analysis
+
+
+Now in the second portion of the project, we're going to analyze the ToothGrowth data in the R datasets package.
+
+### Loading the ToothGrowth data
+
+```{r}
+
+# load "tidyverse" plotting package
+library(ggplot2)
+
+
+
+# Load data
+data(ToothGrowth)
+
+```
+
+
+### Performing some basic exploratory data analyses
+In the following code, we can see that 3 columns compose our dataset: len, supp & dose.
+```{r}
+# Show first rows
+head(ToothGrowth)
+```
+
+
+```{r}
+dim(ToothGrowth)
+```
+
+
+
+
+### Provide a basic summary of the data.
+
+This data contains 3 columns. The first column (*len*) talks about the length of tooth of guinea pigs. It is a continious value in range 4.20 - 33.90 with a mean of 18.81. The columns *supp* is about the supplement took by the animal. This column is discrete, with just two possible values (OJ & VC).
+
+The last column (*dose*) shows data about dosage of supplement in mg. It goes from 0.5 mg to 2 mg.
+
+```{r}
+summary(ToothGrowth)
+```
+
+Let's plot the previous information by *supp* group.
+
+```{r}
+qplot(factor(supp), len, data = ToothGrowth, facets=~dose, 
+      main="Tooth growth of guinea pigs by supplement type and dosage (mg)",
+      xlab="Supplement type", ylab="Tooth length") + 
+      geom_boxplot(aes(fill = supp)) +
+      scale_fill_manual(values=c("#f9b4ab", "#679186"))
+```
