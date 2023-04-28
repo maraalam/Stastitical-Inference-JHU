@@ -6,8 +6,6 @@ output: html_document
 ---
 
 
-
-
 ## Part 2: Basic Inferential Data Analysis
 
 
@@ -62,3 +60,59 @@ qplot(factor(supp), len, data = ToothGrowth, facets=~dose,
       geom_boxplot(aes(fill = supp)) +
       scale_fill_manual(values=c("#f9b4ab", "#679186"))
 ```
+
+
+As it's plotted, total length of tooth increases as dosage is higher (2mg). In addition, there are difference between those animals given OJ supplement and VC one. In the specific case of VC, it starts from a lower value and achieve a great result after increasing dosage. OJ supplement increase tooth length as dosage increase as well. However, as starts from a higher value than VC, the increasing is minor.
+
+
+### Hypothesis Test
+Use confidence intervals and/or hypothesis tests to compare tooth growth by supp and dose.
+
+
+#### Assumptions
+- Supposing the random variable of interest *Tooth length* has a know mean µ and a variance σ<sup>2</sup>. We assume that *Tooth length* has a normal distribution, that is to say, X ~ N(µ, σ<sup>2</sup>)
+State your conclusions and the assumptions needed for your conclusions.
+
+- Variances of tooth growth are different when using different supplement and dosage.
+
+- The three variables are independent and identically distributed (i.i.d.).
+
+#### Supplement Hypothesis
+
+Null hypothesis: 'There is no difference in tooth growth when using supplements (OJ or VC) -> H0: lenOJ = lenVC
+
+Alternate hypothesis: 'There are more tooth growth when using VC than OJ' 
+
+```{r}
+
+t.test(ToothGrowth$len[ToothGrowth$supp == 'OJ'], ToothGrowth$len[ToothGrowth$supp == 'VC'], alternative = "greater", paired = FALSE, var.equal = FALSE, conf.level = 0.95)
+```
+
+As the p-value (0.03032) is lower than 0.05, then we reject the null hypothesis.
+
+#### Supplement Hypothesis
+
+Null hypothesis: 'There is no difference in tooth growth when using different dosage
+
+Alternate hypothesis: 'There are more tooth growth when the dosage increases' 
+
+Comparing 0.5 to 1.0 mg
+```{r}
+
+t.test(ToothGrowth$len[ToothGrowth$dose == 0.5], ToothGrowth$len[ToothGrowth$dose == 1], alternative = "less", paired = FALSE, var.equal = FALSE, conf.level = 0.95)
+```
+
+
+Comparing 1.0 to 2.0mg.
+
+```{r}
+
+t.test(ToothGrowth$len[ToothGrowth$dose == 1], ToothGrowth$len[ToothGrowth$dose == 2], alternative = "less", paired = FALSE, var.equal = FALSE, conf.level = 0.95)
+```
+
+
+Both test show a p-values lower than 0.5. Then we reject the null hypothesis. This can be interpreted as, based on these low p-values, it is very likely that dosage has an effect on length, and a major value of dosage, major increase in length.
+
+
+## Conclusions
+We conclude that, due to the p-value obtained, there is a difference between administering the OJ supplement and the VC. In addition, there is a greater increase in tooth size when a higher dose of these supplements is administered.
